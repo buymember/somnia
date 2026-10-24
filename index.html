@@ -1,0 +1,532 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Somnia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: capture-first bedside notebook, then a private journal, patterns and a quiet symbol-based shared space. Sticky header with tabs, bottom tab bar on phones. */
+:root{
+  --bg:#eceff5; --paper:#f8f9fc; --soft:#e1e6f0; --ink:#141a2e; --mute:#5a6479; --line:#d3d9e7;
+  --acc:#3443a6; --acc-ink:#ffffff; --dawn:#a4521f; --warn:#a4521f;
+  --m-calm:#23807a; --m-happy:#b9770e; --m-strange:#6f4fc4; --m-scary:#bd3333; --m-sad:#3570bd; --m-none:#a9b1c4;
+  --font-s:"Newsreader","Iowan Old Style",Georgia,serif;
+  --font-b:"Onest","Segoe UI",system-ui,sans-serif;
+  --font-m:"DM Mono",ui-monospace,Menlo,monospace;
+  --shadow:0 1px 0 rgba(255,255,255,.8) inset,0 20px 44px -30px rgba(20,26,46,.5);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a0f1e; --paper:#121a2e; --soft:#1a2440; --ink:#e8ebf6; --mute:#98a2bf; --line:#263150;
+  --acc:#aab6ff; --acc-ink:#0a0f1e; --dawn:#f2b48a; --warn:#f2b48a;
+  --m-calm:#5fd0c0; --m-happy:#f2c14e; --m-strange:#b79cff; --m-scary:#ff8a80; --m-sad:#7fb2ff; --m-none:#4a5576;
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 20px 44px -30px #000;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a0f1e; --paper:#121a2e; --soft:#1a2440; --ink:#e8ebf6; --mute:#98a2bf; --line:#263150;
+  --acc:#aab6ff; --acc-ink:#0a0f1e; --dawn:#f2b48a; --warn:#f2b48a;
+  --m-calm:#5fd0c0; --m-happy:#f2c14e; --m-strange:#b79cff; --m-scary:#ff8a80; --m-sad:#7fb2ff; --m-none:#4a5576;
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 20px 44px -30px #000;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--font-b);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:var(--font-s);font-weight:500;letter-spacing:-.02em;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap.wide{max-width:1040px}
+.eyebrow{font:500 11.5px/1.3 var(--font-m);letter-spacing:.13em;text-transform:uppercase;color:var(--mute)}
+.note{color:var(--mute);font-size:13.5px}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 85%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.hbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;justify-self:start;background:none;border:0;padding:0;font:500 26px/1 var(--font-s);letter-spacing:-.02em;color:var(--ink)}
+.logo svg{width:26px;height:26px}
+.tnav{display:flex;gap:2px;padding:4px;border:1px solid var(--line);border-radius:99px;background:var(--paper)}
+.tnav button{border:0;background:none;padding:8px 18px;border-radius:99px;color:var(--mute);font-weight:600;font-size:14.5px;transition:background .2s,color .2s}
+.tnav button:hover{color:var(--ink)}
+.tnav button[aria-current=page]{background:var(--ink);color:var(--bg)}
+.mchip{justify-self:end;display:flex;align-items:center;gap:8px;font:500 12px/1 var(--font-m);letter-spacing:.06em;color:var(--mute)}
+.mchip svg{width:22px;height:22px}
+.tabbar{display:none}
+@media(max-width:720px){
+  .hbar{grid-template-columns:1fr auto}.tnav{display:none}.mchip span{display:none}
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--paper) 90%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+  .tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border:0;background:none;color:var(--mute);font:600 11.5px/1.2 var(--font-b)}
+  .tabbar button[aria-current=page]{color:var(--acc)}
+  main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c,var(--m-none));flex:none}
+
+/* buttons + chips */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:99px;border:1px solid var(--line);background:var(--paper);font:600 15px var(--font-b);color:var(--ink);transition:transform .15s,border-color .15s,filter .15s}
+.btn:hover{border-color:var(--acc)}
+.btn:active{transform:scale(.98)}
+.btn.main{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.btn.main:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
+.btn.sm{min-height:36px;padding:0 14px;font-size:13.5px}
+.btn.danger{color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:none;color:var(--mute);font:600 14px var(--font-b);transition:background .15s,color .15s,border-color .15s}
+.chip:hover{border-color:var(--acc);color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip small{font:500 11.5px var(--font-m);opacity:.75}
+.chip.sy{padding-right:6px;color:var(--ink);background:var(--soft);border-color:transparent;cursor:default}
+.chip.sy button{width:24px;height:24px;border-radius:50%;border:0;background:none;color:var(--mute);font-size:16px;line-height:1}
+.chip.sy button:hover{background:var(--line);color:var(--ink)}
+.chip i.you{width:6px;height:6px;border-radius:50%;background:var(--dawn)}
+.symin{height:36px;min-width:130px;padding:0 14px;border-radius:99px;border:1px dashed var(--line);background:none;outline:0}
+.symin:focus{border-style:solid;border-color:var(--acc)}
+.seg{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:99px;background:var(--paper)}
+.seg button{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 16px;border:0;border-radius:99px;background:none;color:var(--mute);font:600 14px var(--font-b)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.badge{display:inline-block;padding:1px 9px;border-radius:99px;font:500 11px/1.6 var(--font-m);letter-spacing:.08em;text-transform:uppercase;color:var(--dawn);border:1px solid color-mix(in srgb,var(--dawn) 55%,transparent)}
+
+/* page heads */
+.ph{padding-block:clamp(28px,5vw,56px) 24px}
+.ph h1{margin-top:14px;font-size:clamp(36px,6.4vw,64px);font-weight:500;letter-spacing:-.03em;line-height:1.02}
+.ph h1 em{font-style:italic;color:var(--acc)}
+.ph p{margin-top:14px;max-width:52ch;color:var(--mute);font-size:17px}
+
+/* capture */
+.book{border:1px solid var(--line);border-radius:26px;background:var(--paper);box-shadow:var(--shadow);overflow:hidden}
+.book textarea{display:block;width:100%;min-height:300px;padding:12px 26px;border:0;outline:0;resize:vertical;background:linear-gradient(transparent 35px,var(--line) 35px) 0 12px/100% 36px repeat-y local;font:italic 400 22px/36px var(--font-s);color:var(--ink)}
+.book textarea::placeholder{color:var(--mute);opacity:.8}
+.book textarea:focus-visible{outline:0}
+.book:focus-within{border-color:var(--acc)}
+.starters{display:flex;flex-wrap:wrap;gap:8px;padding:12px 20px 0;border-top:1px solid var(--line)}
+.starters .chip{min-height:32px;font-size:13.5px;font-family:var(--font-s);font-style:italic;font-weight:500}
+.cbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 20px 16px}
+.cbar .hint{flex:1 1 140px;font-size:13px;color:var(--mute)}
+.mic[aria-pressed=true]{background:var(--dawn);border-color:var(--dawn);color:#fff;animation:rec 1.4s ease-in-out infinite}
+@keyframes rec{50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--dawn) 25%,transparent)}}
+.saved{display:flex;flex-direction:column;gap:22px;padding:24px;border:1px solid var(--line);border-radius:26px;background:var(--paper);box-shadow:var(--shadow)}
+.ok{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--acc)}
+.ok .ic{width:24px;height:24px}
+.etx{font:italic 400 21px/1.5 var(--font-s);overflow-wrap:anywhere;white-space:pre-wrap}
+.det{display:flex;flex-direction:column;gap:18px}
+.dg{display:flex;flex-direction:column;gap:9px}
+.dg .note{margin-top:2px}
+.matches{display:flex;flex-direction:column;gap:8px}
+.match{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border-radius:18px;border:1px solid var(--line);background:var(--soft);text-align:left;transition:border-color .15s}
+.match:hover{border-color:var(--acc)}
+.match b{font:500 24px var(--font-s);color:var(--acc);min-width:52px}
+.match span{flex:1;font-size:15px}
+.acts{display:flex;flex-wrap:wrap;gap:10px}
+.recent{margin-top:clamp(32px,5vw,56px)}
+.rhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lnk{background:none;border:0;padding:4px 0;color:var(--acc);font:600 14px var(--font-b)}
+.lnk:hover{text-decoration:underline}
+
+/* journal entries */
+.ent{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px 16px;padding:18px 8px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:14px;transition:background .15s}
+.ent:hover{background:color-mix(in srgb,var(--soft) 70%,transparent)}
+.dd{display:flex;flex-direction:column;align-items:center}
+.dd b{font:500 34px/1 var(--font-s);letter-spacing:-.03em}
+.dd span{margin-top:4px;font:500 11px var(--font-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.eb{min-width:0}
+.et{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font:400 18px/1.5 var(--font-s);overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-top:10px;font-size:13.5px;color:var(--mute)}
+.meta .mt,.meta .vs{display:inline-flex;align-items:center;gap:6px}
+.meta .vs .ic{width:15px;height:15px}
+.meta .sym{border:0;background:none;padding:0;color:var(--acc);font:500 13px var(--font-m)}
+.meta .sym:hover{text-decoration:underline}
+.mh{padding:28px 8px 6px;font:500 12px var(--font-m);letter-spacing:.13em;text-transform:uppercase;color:var(--mute)}
+.jtop{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;padding:22px 24px;border:1px solid var(--line);border-radius:26px;background:var(--paper);margin-bottom:22px}
+.stats{display:grid;grid-template-columns:repeat(3,auto);gap:10px 28px;justify-content:start}
+.stats div{display:flex;flex-direction:column}
+.stats b{font:500 clamp(34px,6vw,48px)/1 var(--font-s);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stats span{margin-top:6px;font:500 11px var(--font-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.cal{display:grid;grid-template-columns:repeat(7,22px);gap:5px}
+.cal span{font:500 10px var(--font-m);text-align:center;color:var(--mute)}
+.cell{display:block;width:22px;height:22px;border-radius:6px;background:var(--soft)}
+.cell.l1{background:color-mix(in srgb,var(--acc) 35%,var(--soft))}
+.cell.l2{background:color-mix(in srgb,var(--acc) 65%,var(--soft))}
+.cell.l3{background:var(--acc)}
+.cell.today{outline:2px solid var(--dawn);outline-offset:1px}
+.cell.fut{visibility:hidden}
+@media(max-width:640px){.jtop{grid-template-columns:1fr}.cal{grid-template-columns:repeat(7,1fr);max-width:320px}.cell{width:auto;aspect-ratio:1}}
+.jtools{display:flex;flex-direction:column;gap:12px;margin-bottom:6px}
+.sw{position:relative}
+.sw .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--mute);pointer-events:none}
+.sw input{width:100%;height:48px;padding:0 18px 0 46px;border-radius:99px;border:1px solid var(--line);background:var(--paper);outline:0}
+.sw input:focus{border-color:var(--acc)}
+.empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:44px 24px;margin-top:14px;text-align:center;color:var(--mute);border:1.5px dashed var(--line);border-radius:26px}
+.empty b{font:500 24px var(--font-s);color:var(--ink)}
+.card{padding:22px 24px;border:1px solid var(--line);border-radius:26px;background:var(--paper)}
+.card h3{font-size:24px;margin-bottom:6px}
+.card+.card{margin-top:16px}
+.exnote{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;justify-content:space-between;padding:14px 18px;margin-bottom:18px;border-radius:18px;background:color-mix(in srgb,var(--dawn) 12%,transparent);font-size:14.5px}
+
+/* patterns */
+.sline{display:flex;flex-wrap:wrap;gap:6px 26px;margin:0 0 22px;padding:0 0 18px;border-bottom:1px solid var(--line);font-size:15px;color:var(--mute)}
+.sline b{color:var(--ink);font:500 22px var(--font-s);margin-right:6px;font-variant-numeric:tabular-nums}
+.brow{display:grid;grid-template-columns:96px minmax(0,1fr) 28px;align-items:center;gap:12px;width:100%;padding:7px 0;border:0;background:none;text-align:left}
+.brow:hover .bt{background:color-mix(in srgb,var(--acc) 18%,var(--soft))}
+.brow span{font:500 13.5px var(--font-m);overflow:hidden;text-overflow:ellipsis}
+.bt{height:12px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bt i{display:block;height:100%;border-radius:99px;background:var(--acc)}
+.brow b{font:500 14px var(--font-m);text-align:right;font-variant-numeric:tabular-nums}
+.wcols{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;height:170px;margin-top:14px}
+.wc{display:flex;flex-direction:column;gap:8px;min-width:0}
+.plot{flex:1;display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
+.stack{display:flex;flex-direction:column-reverse;gap:2px;width:100%;border-radius:10px 10px 0 0;overflow:hidden}
+.stack i{display:block;min-height:6px}
+.wc span{font:500 11px var(--font-m);color:var(--mute);text-align:center;white-space:nowrap}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:13px;color:var(--mute)}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.rec{display:flex;flex-direction:column;gap:10px;padding:18px 0;border-bottom:1px solid var(--line)}
+.rec:last-child{border-bottom:0;padding-bottom:0}
+.rec h4{margin:0;font:500 22px var(--font-s);letter-spacing:-.01em}
+.rec h4 a,.rec h4 button{color:var(--acc);background:none;border:0;padding:0;font:inherit}
+.prompt{padding:12px 16px;border-radius:16px;background:var(--soft);font:italic 400 17px/1.45 var(--font-s)}
+.prompt small{display:block;margin-bottom:4px;font:500 11px var(--font-m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-style:normal}
+
+/* shared */
+.dream{display:flex;flex-direction:column;gap:14px;padding:22px 24px;border:1px solid var(--line);border-radius:26px;background:var(--paper)}
+.dream+.dream{margin-top:14px}
+.dh{display:flex;justify-content:space-between;gap:12px}
+.dream .dtx{font:italic 400 20px/1.5 var(--font-s);overflow-wrap:anywhere}
+.veil{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:16px;border-radius:18px;background:var(--soft);font-size:15px}
+.df{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.df .sp{flex:1}
+.mebtn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:none;font:600 14.5px var(--font-b);transition:background .15s,border-color .15s}
+.mebtn:hover{border-color:var(--acc)}
+.mebtn[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.mebtn small{font:500 12px var(--font-m);opacity:.8}
+.cloud{margin-bottom:22px}
+.cloud .chips{margin-top:12px}
+footer{margin-top:clamp(40px,6vw,72px);padding-block:26px calc(40px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--mute);font-size:13.5px}
+footer p{max-width:70ch}
+
+/* dialog */
+dialog{margin:0 0 0 auto;padding:0;overflow:hidden;width:min(560px,100%);max-width:100%;height:100dvh;max-height:none;border:0;border-left:1px solid var(--line);border-radius:30px 0 0 30px;background:var(--paper);color:var(--ink);box-shadow:-30px 0 80px -20px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(8,12,28,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+dialog[open]{animation:slide .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes slide{from{transform:translateX(48px);opacity:0}}
+body:has(dialog[open]){overflow:hidden}
+.din{height:100%;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:20px;padding:22px 24px calc(28px + env(safe-area-inset-bottom,0px))}
+.dtop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.dtop>div{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.x{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:none}
+.x:hover{border-color:var(--acc)}
+.etext{display:block;width:100%;min-height:170px;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--bg);resize:vertical;font:italic 400 20px/1.5 var(--font-s);outline:0}
+.etext:focus{border-color:var(--acc)}
+@media(max-width:700px){dialog{margin:auto 0 0;height:92dvh;border-left:0;border-radius:30px 30px 0 0}}
+
+#toast{position:fixed;z-index:40;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));max-width:calc(100% - 32px);padding:12px 20px;border-radius:99px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14.5px;box-shadow:0 14px 30px -10px #0008;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:opacity .2s,transform .25s}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:720px){#toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="top"><div class="wrap wide hbar">
+  <button class="logo" data-v="capture" aria-label="Somnia, capture a dream">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25 19.5A10.5 10.5 0 0 1 12.5 7a10.5 10.5 0 1 0 12.5 12.5z" fill="var(--acc)"/><circle cx="23" cy="8" r="1.6" fill="var(--dawn)"/></svg>
+    Somnia
+  </button>
+  <nav class="tnav" id="tnav" aria-label="Main"></nav>
+  <div class="mchip" id="mchip"></div>
+</div></header>
+
+<main>
+<section id="v-capture">
+  <div class="wrap">
+    <div class="ph" id="chead"></div>
+    <div id="cap"></div>
+    <div class="recent" id="recent"></div>
+  </div>
+</section>
+
+<section id="v-journal" hidden>
+  <div class="wrap">
+    <div class="ph"><span class="eyebrow">Dream journal</span><h1>Your <em>nights</em></h1><p>Private by default. Only dreams you choose to share ever leave this page.</p></div>
+    <div id="jhead"></div>
+    <div class="jtools" id="jtools"></div>
+    <div id="jlist"></div>
+    <div id="jdata"></div>
+  </div>
+</section>
+
+<section id="v-patterns" hidden>
+  <div class="wrap">
+    <div class="ph"><span class="eyebrow">Patterns</span><h1>What keeps <em>coming back</em></h1><p>This is a summary of what you logged. It does not tell you what a dream means.</p></div>
+    <div id="pat"></div>
+  </div>
+</section>
+
+<section id="v-shared" hidden>
+  <div class="wrap">
+    <div class="ph"><span class="eyebrow">Shared dreams</span><h1>Dreamed it too?</h1><p>Dreams people chose to share anonymously. No followers, no likes, no view counts. Find a symbol and see who else had it.</p></div>
+    <div class="cloud" id="cloud"></div>
+    <div id="sfeed"></div>
+  </div>
+</section>
+</main>
+
+<nav class="tabbar" id="tabbar" aria-label="Main"></nav>
+
+<footer><div class="wrap"><p>Somnia preview. Your journal is saved only in this browser. The shared dreams and weekly dreamer counts are sample data for this preview, and nothing you share here is sent anywhere.</p></div></footer>
+
+<dialog id="dlg" aria-label="Dream details"></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const MOODS=["Calm","Happy","Strange","Scary","Sad"],TYPES=["Regular","Lucid","Recurring","Nightmare"];
+const MC={Calm:"var(--m-calm)",Happy:"var(--m-happy)",Strange:"var(--m-strange)",Scary:"var(--m-scary)",Sad:"var(--m-sad)",None:"var(--m-none)"};
+const DAY=864e5,HR=36e5;
+const P={
+ pen:'<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>',
+ book:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+ bars:'<path d="M5 20v-9M12 20V4M19 20v-6"/>',
+ stars:'<path d="M11 3l1.7 4.4L17 9l-4.3 1.6L11 15l-1.7-4.4L5 9l4.3-1.6z"/><path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+ check:'<circle cx="12" cy="12" r="9"/><path d="m8.2 12.4 2.6 2.6 5-5.4"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ lock:'<rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ arrow:'<path d="M5 12h14m-5-5 5 5-5 5"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>',
+ copy:'<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
+ save:'<path d="M12 4v11m-4-4 4 4 4-4M5 20h14"/>'};
+const I=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+const NAV=[["capture","Capture","pen"],["journal","Journal","book"],["patterns","Patterns","bars"],["shared","Shared","stars"]];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=n=>n>=1e3?(n/1e3).toFixed(1).replace(".0","")+"K":String(n);
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const dkey=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const ago=t=>{const d=Date.now()-t;return d<HR?Math.max(1,Math.round(d/6e4))+"m ago":d<DAY?Math.round(d/HR)+"h ago":new Date(t).toLocaleDateString("en-US",{month:"short",day:"numeric"})};
+const uid=()=>"e"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const tag=s=>"#"+String(s).replace(/\s+/g,"");
+
+/* symbols: detected from the dream text, editable by the dreamer */
+const SYM={
+ water:/\b(water|sea|ocean|flood\w*|river|lake|rain\w*|swim\w*|drown\w*|wave\w*|pool)\b/i,
+ flying:/\b(fly|flying|flew|float\w*|soar\w*|glid\w*|skimm\w*)\b/i,
+ falling:/\b(fall|falling|fell|plung\w*)\b/i,
+ stairs:/\b(stair\w*|staircase|steps|escalator|landing\w*)\b/i,
+ house:/\b(house|home|apartment|room|rooms|kitchen|attic|basement|cupboard\w*)\b/i,
+ teeth:/\b(teeth|tooth)\b/i,
+ school:/\b(school|class\w*|exam|teacher|lecture)\b/i,
+ chase:/\b(chas\w+|follow\w*|hunt\w*|escap\w*)\b/i,
+ mirror:/\b(mirror\w*|reflection)\b/i,
+ door:/\b(door\w*|gate|hallway|corridor)\b/i,
+ family:/\b(mother|mom|father|dad|grand\w+|sister|brother|family|parents|aunt|uncle)\b/i,
+ animals:/\b(cat|cats|dog|dogs|bird|owl|owls|fish|snake|horse|wolf|spider|animal\w*)\b/i,
+ travel:/\b(train|station|road|car|bus|airport|plane|journey|trip)\b/i,
+ lost:/\b(lost|late|missed|searching|couldn.t find)\b/i,
+ loss:/\b(died|dead|passed away|funeral)\b/i,
+ books:/\b(book|books|library|pages?)\b/i};
+const detect=t=>Object.keys(SYM).filter(k=>SYM[k].test(t)).slice(0,6);
+/* sample weekly dreamer counts for the preview */
+const SYMW={water:2140,family:1760,flying:1630,falling:1480,chase:1320,house:1180,school:910,animals:890,lost:730,stairs:620,teeth:540,door:480,loss:420,travel:360,mirror:310,books:240};
+const PROMPTS={stairs:"Was there a step you were hesitating to take, big or small?",water:"How did the water feel: calm, rising, or deep?",house:"Which room did you spend the most time in?",school:"Was there anything you felt unprepared for this week?",chase:"What did you want to get away from, or toward?",mirror:"Did the reflection match you?",falling:"Were you afraid of the landing, or curious about it?",flying:"What did the view look like?",family:"Who was there, and what did you want to say to them?",door:"What did you expect to find on the other side?"};
+const COMM=[
+ {id:"c1",h:3,mood:"Calm",type:"Regular",syms:["water","house","animals"],n:238,text:"The whole house was underwater but I could breathe. Goldfish moved between the chairs and nobody seemed worried."},
+ {id:"c2",h:6,mood:"Happy",type:"Lucid",syms:["flying"],n:412,text:"I noticed the clock on the wall had no hands, so I knew. I pushed off the floor and the city turned to glass beneath me."},
+ {id:"c3",h:9,mood:"Scary",type:"Recurring",syms:["stairs","door"],n:187,text:"The same staircase again. Every landing has another door and I keep counting floors I never reach."},
+ {id:"c4",h:14,mood:"Sad",type:"Regular",syms:["travel","family","loss"],n:296,text:"My grandfather waited at a station and only said, don't be late. I woke up crying and happy at once."},
+ {id:"c5",h:20,mood:"Strange",type:"Regular",syms:["school","lost"],n:354,text:"I was late for an exam in a subject I never studied, in a room with no walls."},
+ {id:"c6",h:26,mood:"Scary",type:"Nightmare",syms:["chase"],n:143,text:"Something followed me across a parking lot. I never turned around. I just kept walking faster."},
+ {id:"c7",h:33,mood:"Strange",type:"Regular",syms:["teeth"],n:221,text:"My teeth turned soft like candy and I tried to hide it during a meeting."},
+ {id:"c8",h:41,mood:"Strange",type:"Lucid",syms:["books","mirror"],n:98,text:"A library where every book was in my handwriting. I read one page and the room rearranged itself."},
+ {id:"c9",h:52,mood:"Calm",type:"Regular",syms:["falling"],n:167,text:"Falling slowly through warm orange light. I wasn't afraid, I was curious who was waiting at the bottom."},
+ {id:"c10",h:60,mood:"Happy",type:"Regular",syms:["travel","house"],n:120,text:"Driving a train through my childhood neighborhood while the tracks were laid down just ahead of me."},
+ {id:"c11",h:75,mood:"Happy",type:"Regular",syms:["animals","house"],n:205,text:"A dog and an owl argued about the weather in my kitchen. The owl won."},
+ {id:"c12",h:90,mood:"Sad",type:"Recurring",syms:["house","lost"],n:311,text:"I kept packing boxes in a house that grew bigger every time I turned around."}].map(c=>({...c,ts:Date.now()-c.h*HR}));
+const EX=[
+ [1,7,"Calm","Regular","Sitting on a flat rock in the middle of the sea under a purple sky. No fear at all, just the sound of water moving under me.",["water"]],
+ [2,6,"Scary","Recurring","The staircase again. This time there was a mirror at the top and my reflection was already walking down.",["stairs","mirror"]],
+ [3,8,"Strange","Lucid","I noticed I was dreaming when my hands had too many fingers. I counted them twice, then walked through the wall.",["hands"]],
+ [5,7,"Happy","Regular","A road trip with people I haven't seen since school, singing in the rain with the windows down.",["travel","school","water"]],
+ [6,7,"Sad","Regular","Packing boxes in a house that kept getting bigger. Every room I emptied filled up behind me.",["house","lost"]],
+ [9,6,"Calm","Regular","A quiet market that smelled of oranges. Nobody spoke and nobody needed to.",["market"]],
+ [12,7,"Strange","Lucid","Searching a huge library for a book with my name on it. When I found it, every page was blank.",["books"]],
+ [15,5,"Scary","Nightmare","Something was following me through a dark parking lot. My legs would not move faster.",["chase"]],
+ [18,8,"Scary","Recurring","Counting floors on the staircase. Every landing had another door and none of them opened.",["stairs","door"]],
+ [22,7,"Happy","Regular","Flying low over my old school. The football field was a lake and I skimmed it with my fingertips.",["flying","school","water"]],
+ [27,7,"Sad","Regular","My grandmother's kitchen, but all the cupboards were empty. She handed me tea anyway.",["house","family"]],
+ [31,6,"Strange","Regular","A cat in a suit handed me a ticket for parking my shadow in the wrong place.",["animals"]]];
+function seed(){const n=Date.now();return EX.map(([d,h,mood,type,text,syms],i)=>{const t=new Date(n-d*DAY);t.setHours(h,10+i*3,0,0);return{id:"x"+i,ts:t.getTime(),text,mood,type,syms,shared:false,ex:true}})}
+
+/* state */
+let S={entries:null,draft:"",metoo:[]};
+try{const x=JSON.parse(localStorage.getItem("somnia2")||"null");if(x&&Array.isArray(x.entries))S=Object.assign(S,x)}catch(e){}
+if(!S.entries)S.entries=seed();
+const persist=()=>{try{localStorage.setItem("somnia2",JSON.stringify(S))}catch(e){}};
+let view="capture",cur=null,jsym=null,jmood=null,jq="",sSym=null,rec=null,DL=null,shown=new Set(),armed=null;
+const ents=()=>S.entries.slice().sort((a,b)=>b.ts-a.ts);
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2600)}
+
+/* moon */
+function moonInfo(d=new Date()){const syn=29.530588853,ref=Date.UTC(2000,0,6,18,14),p=(((d.getTime()-ref)/DAY)%syn+syn)%syn/syn;
+ const n=p<.03||p>.97?"New moon":p<.22?"Waxing crescent":p<.28?"First quarter":p<.47?"Waxing gibbous":p<.53?"Full moon":p<.72?"Waning gibbous":p<.78?"Last quarter":"Waning crescent";
+ return{p,name:n,lit:Math.round((1-Math.cos(2*Math.PI*p))/2*100)}}
+function moonSVG(p){const r=10,c=12,rx=Math.abs(Math.cos(2*Math.PI*p))*r,wax=p<.5,t=wax?(p<.25?0:1):(p<.75?0:1);
+ return`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="var(--soft)" stroke="var(--line)"/><path d="M${c} ${c-r}A${r} ${r} 0 0 ${wax?1:0} ${c} ${c+r}A${rx} ${r} 0 0 ${t} ${c} ${c-r}Z" fill="var(--acc)"/></svg>`}
+
+/* streak and calendar */
+function streak(){const days=new Set(S.entries.map(e=>dkey(e.ts)));let d=new Date();d.setHours(12,0,0,0);if(!days.has(dkey(d)))d=new Date(d-DAY);let n=0;while(days.has(dkey(d))){n++;d=new Date(d-DAY)}return n}
+function calHTML(){const today=new Date();today.setHours(0,0,0,0);const dow=(today.getDay()+6)%7,start=new Date(today);start.setDate(start.getDate()-dow-28);
+ const cnt={};S.entries.forEach(e=>{const k=dkey(e.ts);cnt[k]=(cnt[k]||0)+1});let cells="",total=0;
+ for(let i=0;i<35;i++){const d=new Date(start);d.setDate(start.getDate()+i);const n=cnt[dkey(d)]||0,fut=d>today;if(!fut)total+=n;
+  cells+=`<i class="cell l${Math.min(3,n)}${d.getTime()===today.getTime()?" today":""}${fut?" fut":""}" title="${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}: ${n} dream${n===1?"":"s"}"></i>`}
+ return`<div class="cal" role="img" aria-label="Last five weeks, ${total} dreams logged">${"MTWTFSS".split("").map(x=>`<span>${x}</span>`).join("")}${cells}</div>`}
+
+/* shared pieces */
+function detHTML(e){return`
+<div class="dg"><span class="eyebrow">Mood</span><div class="chips">${MOODS.map(m=>`<button type="button" class="chip" data-mood="${m}" aria-pressed="${e.mood===m}"><i class="dot" style="--c:${MC[m]}"></i>${m}</button>`).join("")}</div></div>
+<div class="dg"><span class="eyebrow">Type</span><div class="chips">${TYPES.map(t=>`<button type="button" class="chip" data-type="${t}" aria-pressed="${e.type===t}">${t}</button>`).join("")}</div></div>
+<div class="dg"><span class="eyebrow">Symbols</span><div class="chips">${e.syms.map(s=>`<span class="chip sy">${esc(tag(s))}<button type="button" data-rm="${esc(s)}" aria-label="Remove ${esc(s)}">×</button></span>`).join("")}<input class="symin" placeholder="Add symbol" maxlength="24" aria-label="Add a symbol"></div></div>
+<div class="dg"><span class="eyebrow">Who can see it</span><div class="seg" role="group" aria-label="Visibility"><button type="button" data-vis="0" aria-pressed="${!e.shared}">${I("lock")}Private</button><button type="button" data-vis="1" aria-pressed="${!!e.shared}">${I("globe")}Share anonymously</button></div><p class="note">${e.shared?"Shown without your name in Shared dreams. You can make it private again any time.":"Only you can see this dream."}</p></div>`}
+function matchesHTML(e){const m=e.syms.filter(s=>SYMW[s]);if(!m.length)return"";
+ return`<div class="matches"><span class="eyebrow">You may not be the only one</span>${m.map(s=>`<button type="button" class="match" data-gosym="${s}"><b>${fmt(SYMW[s])}</b><span>people dreamed of <u>${tag(s)}</u> this week</span>${I("arrow")}</button>`).join("")}<p class="note">Sample numbers for this preview.</p></div>`}
+function row(e){const d=new Date(e.ts);
+ return`<article class="ent" data-e="${e.id}" tabindex="0" aria-label="Dream from ${d.toLocaleDateString("en-US",{month:"long",day:"numeric"})}"><div class="dd"><b>${d.getDate()}</b><span>${d.toLocaleDateString("en-US",{weekday:"short"})}</span></div><div class="eb"><p class="et">${esc(e.text)}</p><div class="meta">${e.mood?`<span class="mt"><i class="dot" style="--c:${MC[e.mood]}"></i>${e.mood}</span>`:""}${e.type!=="Regular"?`<span>${e.type}</span>`:""}${e.syms.map(s=>`<button type="button" class="sym" data-jsym="${esc(s)}">${esc(tag(s))}</button>`).join("")}<span class="vs">${e.shared?I("globe")+"Shared":I("lock")+"Private"}</span>${e.ex?'<span class="badge">Example</span>':""}</div></div></article>`}
+
+/* capture */
+function renderCapture(){
+ const h=new Date().getHours(),m=moonInfo();
+ const g=h<5?["Still awake?","Catch it before it fades."]:h<12?["Good morning.","What do you remember?"]:h<18?["A dream still lingering?","Write it down."]:["Good evening.","Come back when you wake."];
+ const sub=h>=18?"Keep this page by the bed. In the morning, write the first thing that comes back.":"Write the first thing that comes back. A fragment is enough and details can wait.";
+ $("#chead").innerHTML=`<span class="eyebrow">${new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})} · ${m.name}</span><h1>${g[0]} <em>${g[1]}</em></h1><p>${sub}</p>`;
+ if(cur){const e=S.entries.find(x=>x.id===cur);if(!e){cur=null;return renderCapture()}
+  $("#cap").innerHTML=`<div class="saved"><div class="ok">${I("check")}Saved to your journal</div><p class="etx">${esc(e.text)}</p><div class="det" data-eid="${e.id}">${detHTML(e)}</div><div id="matches">${matchesHTML(e)}</div><div class="acts"><button class="btn main" data-act="again">Write another</button><button class="btn" data-v="journal">Open journal</button></div></div>`}
+ else{
+  $("#cap").innerHTML=`<div class="book"><label class="sr-only" for="t">Your dream</label><textarea id="t" maxlength="4000" placeholder="Even a fragment counts. A face, a place, a feeling."></textarea>
+  <div class="starters" role="group" aria-label="Ways to start">${["I felt…","I was in…","With me was…","The strangest part…"].map(s=>`<button type="button" class="chip" data-start="${s}">${s}</button>`).join("")}</div>
+  <div class="cbar"><button type="button" class="btn mic" id="mic" aria-pressed="false">${I("mic")}<span>Speak</span></button><span class="hint">Drafts save on this device as you type.</span><button type="button" class="btn main" id="go" disabled>Save dream</button></div></div>`;
+  const t=$("#t");t.value=S.draft||"";$("#go").disabled=t.value.trim().length<3}
+ const r=ents().slice(0,3);
+ $("#recent").innerHTML=r.length?`<div class="rhead"><span class="eyebrow">Recently</span><button class="lnk" data-v="journal">See the whole journal</button></div>${r.map(row).join("")}`:""}
+function saveDream(){const t=$("#t"),text=t.value.trim();if(text.length<3)return;if(rec)rec.stop();
+ const e={id:uid(),ts:Date.now(),text,mood:null,type:"Regular",syms:detect(text),shared:false};
+ S.entries.push(e);S.draft="";persist();cur=e.id;renderCapture();toast("Saved to your journal");window.scrollTo(0,0)}
+let dtm;function draftSoon(){clearTimeout(dtm);dtm=setTimeout(()=>{S.draft=$("#t").value;persist()},400)}
+function setMic(on){const b=$("#mic");if(!b)return;b.setAttribute("aria-pressed",on);b.querySelector("span").textContent=on?"Listening… tap to stop":"Speak"}
+function mic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(rec){rec.stop();return}
+ if(!SR){toast("Voice capture is not supported in this browser. Typing works everywhere.");return}
+ const t=$("#t"),base=t.value;let r;
+ try{r=new SR();r.lang=navigator.language||"en-US";r.interimResults=true;r.continuous=true}catch(e){toast("Voice capture could not start. Typing works everywhere.");return}
+ r.onresult=ev=>{let f="",i="";for(const x of ev.results){if(x.isFinal)f+=x[0].transcript;else i+=x[0].transcript}
+  t.value=base+(base&&!/\s$/.test(base)?" ":"")+f+i;$("#go").disabled=t.value.trim().length<3;draftSoon()};
+ r.onerror=ev=>toast(ev.error==="not-allowed"||ev.error==="service-not-allowed"?"The microphone is blocked in this preview, so voice capture is unavailable here. Typing works.":"Voice capture stopped.");
+ r.onend=()=>{rec=null;setMic(false)};
+ try{r.start();rec=r;setMic(true)}catch(e){rec=null;toast("Voice capture could not start. Typing works everywhere.")}}
+
+/* journal */
+function renderJournal(){
+ const all=ents(),lucid=all.filter(e=>e.type==="Lucid").length,hasEx=all.some(e=>e.ex);
+ $("#jhead").innerHTML=`<div class="jtop"><div class="stats"><div><b>${all.length}</b><span>Dreams</span></div><div><b>${streak()}</b><span>Day streak</span></div><div><b>${lucid}</b><span>Lucid</span></div></div>${calHTML()}</div>${hasEx?`<div class="exnote"><span>These example dreams show how the journal looks. Clear them to start your own.</span><button class="btn sm" data-act="clearex">Clear examples</button></div>`:""}`;
+ $("#jtools").innerHTML=`<div class="sw">${I("search")}<input id="jq" type="search" placeholder="Search your dreams" aria-label="Search your dreams" value="${esc(jq)}"></div><div class="chips" role="group" aria-label="Filter by mood">${MOODS.map(m=>`<button type="button" class="chip" data-fmood="${m}" aria-pressed="${jmood===m}"><i class="dot" style="--c:${MC[m]}"></i>${m}</button>`).join("")}${jsym?`<button type="button" class="chip" data-jsym="" aria-pressed="true">${esc(tag(jsym))} ×</button>`:""}</div>`;
+ drawList();drawData()}
+function drawList(){
+ const q=jq.toLowerCase(),l=ents().filter(e=>(!jsym||e.syms.includes(jsym))&&(!jmood||e.mood===jmood)&&(!q||(e.text+" "+e.syms.join(" ")).toLowerCase().includes(q)));
+ if(!l.length){$("#jlist").innerHTML=ents().length?`<div class="empty"><b>No dreams match</b><span>Try another word or clear the filters.</span><button class="btn" data-act="clearf">Clear filters</button></div>`:`<div class="empty"><b>Your journal is empty</b><span>The first dream is the hardest to catch. Even one line counts.</span><button class="btn main" data-v="capture">Capture a dream</button></div>`;return}
+ let h="",mk="";l.forEach(e=>{const k=new Date(e.ts).toLocaleDateString("en-US",{month:"long",year:"numeric"});if(k!==mk){h+=`<div class="mh">${k}</div>`;mk=k}h+=row(e)});$("#jlist").innerHTML=h}
+function journalText(){return ents().map(e=>`${new Date(e.ts).toISOString().slice(0,16).replace("T"," ")} · ${e.mood||"no mood"} · ${e.type}${e.syms.length?" · "+e.syms.map(tag).join(" "):""}${e.shared?" · shared":""}\n${e.text}\n`).join("\n")}
+function drawData(){
+ $("#jdata").innerHTML=`<div class="card" style="margin-top:36px"><h3>Privacy and your data</h3><p class="note" style="font-size:15px;max-width:60ch">Your journal lives in this browser only. A dream becomes visible to others only if you pick Share anonymously on it, and it is shown without your name.</p><div class="acts" style="margin-top:16px"><button class="btn sm" data-act="copy">${I("copy")}Copy as text</button>${DL?`<button class="btn sm" data-act="file">${I("save")}Save as file</button>`:""}<button class="btn sm danger" data-act="wipe">Delete everything</button></div></div>`}
+
+/* patterns */
+function topSyms(days){const f={};S.entries.filter(e=>Date.now()-e.ts<days*DAY).forEach(e=>e.syms.forEach(s=>f[s]=(f[s]||0)+1));return Object.entries(f).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
+function weeks(){const t=new Date();t.setHours(0,0,0,0);const mon=new Date(t);mon.setDate(mon.getDate()-(t.getDay()+6)%7);const out=[];
+ for(let w=5;w>=0;w--){const s=new Date(mon);s.setDate(s.getDate()-7*w);const e=new Date(s);e.setDate(e.getDate()+7);const items=S.entries.filter(x=>x.ts>=s.getTime()&&x.ts<e.getTime()),c={};items.forEach(x=>{const m=x.mood||"None";c[m]=(c[m]||0)+1});out.push({s,total:items.length,c})}return out}
+function renderPatterns(){
+ const rec30=S.entries.filter(e=>Date.now()-e.ts<30*DAY);
+ if(rec30.length<2){$("#pat").innerHTML=`<div class="empty"><b>Patterns appear after a few dreams</b><span>Log at least two dreams in a month and the symbols and moods start to add up.</span><button class="btn main" data-v="capture">Capture a dream</button></div>`;return}
+ const ts=topSyms(30),mx=ts.length?ts[0][1]:1,wk=weeks(),wmx=Math.max(1,...wk.map(w=>w.total)),again=ts.filter(x=>x[1]>=2).slice(0,3);
+ const nm=rec30.filter(e=>e.type==="Nightmare"||e.mood==="Scary").length,lucid=rec30.filter(e=>e.type==="Lucid").length;
+ let h=`<p class="sline"><span><b>${rec30.length}</b>dreams in 30 days</span><span><b>${lucid}</b>lucid</span><span><b>${(rec30.length/4.3).toFixed(1)}</b>per week</span></p>`;
+ h+=`<div class="card"><h3>Symbols this month</h3><p class="note">Tap a symbol to read those dreams.</p><div style="margin-top:10px">${ts.slice(0,7).map(([s,n])=>`<button type="button" class="brow" data-jsym="${esc(s)}"><span>${esc(tag(s))}</span><div class="bt"><i style="width:${n/mx*100}%"></i></div><b>${n}</b></button>`).join("")||'<p class="note">No symbols yet.</p>'}</div></div>`;
+ h+=`<div class="card"><h3>Mood by week</h3><div class="wcols">${wk.map(w=>`<div class="wc"><div class="plot"><div class="stack" style="height:${w.total/wmx*100}%">${[...MOODS,"None"].filter(m=>w.c[m]).map(m=>`<i style="flex:${w.c[m]};background:${MC[m]}" title="${m==="None"?"Untagged":m}: ${w.c[m]}"></i>`).join("")}</div></div><span>${w.s.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span></div>`).join("")}</div><div class="leg">${MOODS.map(m=>`<span><i class="dot" style="--c:${MC[m]}"></i>${m}</span>`).join("")}<span><i class="dot" style="--c:var(--m-none)"></i>Untagged</span></div></div>`;
+ if(again.length)h+=`<div class="card"><h3>Showing up again</h3><p class="note">Symbols that appeared in two or more dreams this month.</p>${again.map(([s,n])=>{const l=rec30.filter(e=>e.syms.includes(s)).sort((a,b)=>b.ts-a.ts);return`<div class="rec"><h4><button type="button" data-jsym="${esc(s)}">${esc(tag(s))}</button> in ${n} dreams</h4><p class="note">Last seen ${ago(l[0].ts)}. ${[...new Set(l.map(e=>e.mood).filter(Boolean))].join(", ")||"No moods tagged"}.</p><div class="prompt"><small>Reflection prompt, not an interpretation</small>${PROMPTS[s]||"What were you feeling just before you fell asleep?"}</div></div>`}).join("")}</div>`;
+ if(nm>=4)h+=`<p class="note" style="margin-top:18px;max-width:60ch">You logged ${nm} scary dreams or nightmares this month. If they are affecting your sleep or mood, a doctor or therapist can help.</p>`;
+ $("#pat").innerHTML=h}
+
+/* shared */
+function renderShared(){
+ const mine=new Set(topSyms(30).map(x=>x[0]));
+ $("#cloud").innerHTML=`<span class="eyebrow">Dreamed this week</span><div class="chips"><button type="button" class="chip" data-ssym="" aria-pressed="${!sSym}">All</button>${Object.entries(SYMW).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button type="button" class="chip" data-ssym="${k}" aria-pressed="${sSym===k}">${tag(k)}<small>${fmt(n)}</small>${mine.has(k)?'<i class="you" title="In your journal"></i>':""}</button>`).join("")}</div><p class="note" style="margin-top:10px">A dot means the symbol is in your journal. Counts are sample data.</p>`;
+ const own=S.entries.filter(e=>e.shared).map(e=>({id:"u"+e.id,eid:e.id,own:1,mood:e.mood,type:e.type,syms:e.syms,text:e.text,ts:e.ts}));
+ const l=[...own.sort((a,b)=>b.ts-a.ts),...COMM].filter(c=>!sSym||c.syms.includes(sSym));
+ $("#sfeed").innerHTML=l.length?l.map(dcard).join(""):`<div class="empty"><b>No shared dreams with that symbol yet</b><span>Pick another symbol, or share one of your own.</span></div>`}
+function dcard(c){const hide=(c.mood==="Scary"||c.type==="Nightmare")&&!shown.has(c.id),on=S.metoo.includes(c.id);
+ return`<article class="dream"><div class="dh"><span class="eyebrow">${c.own?"You, anonymous":"Anonymous"} · ${c.type}</span><span class="eyebrow">${ago(c.ts)}</span></div>${hide?`<div class="veil"><span>Content note: this dream is tagged ${c.type==="Nightmare"?"nightmare":"scary"}.</span><button type="button" class="btn sm" data-show="${c.id}">Show dream</button></div>`:`<p class="dtx">${esc(c.text)}</p><div class="meta">${c.mood?`<span class="mt"><i class="dot" style="--c:${MC[c.mood]}"></i>${c.mood}</span>`:""}${c.syms.map(s=>`<span style="color:var(--acc);font:500 13px var(--font-m)">${esc(tag(s))}</span>`).join("")}</div>`}<div class="df">${c.own?`<button type="button" class="btn sm" data-private="${c.eid}">${I("lock")}Make private</button>`:`<button type="button" class="mebtn" data-me="${c.id}" aria-pressed="${on}">Me too <small>${c.n+(on?1:0)}</small></button>`}<span class="sp"></span>${c.own?"":`<button type="button" class="lnk" data-report="1" style="color:var(--mute)">Report</button>`}</div></article>`}
+
+/* entry dialog */
+function openEntry(id){const e=S.entries.find(x=>x.id===id);if(!e)return;const d=new Date(e.ts);armed=null;
+ $("#dlg").innerHTML=`<div class="din"><div class="dtop"><div><span class="eyebrow">${d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})} · ${d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</span>${e.ex?'<span class="badge">Example</span>':""}</div><button class="x" id="cl" aria-label="Close">${I("x")}</button></div>
+ <label class="sr-only" for="etx">Dream text</label><textarea id="etx" class="etext">${esc(e.text)}</textarea>
+ <div class="det" data-eid="${e.id}">${detHTML(e)}</div>
+ <div class="acts"><button class="btn main" id="esave">Save changes</button><button class="btn danger" id="edel">Delete dream</button></div></div>`;
+ $("#dlg").showModal();$("#cl").onclick=()=>$("#dlg").close();
+ $("#esave").onclick=()=>{const v=$("#etx").value.trim();if(v.length<3){toast("A dream needs at least a few words.");return}e.text=v;persist();toast("Changes saved");refresh()};
+ $("#edel").onclick=ev=>{const b=ev.currentTarget;if(armed===e.id){S.entries=S.entries.filter(x=>x.id!==e.id);if(cur===e.id)cur=null;persist();$("#dlg").close();toast("Dream deleted");refresh()}else{armed=e.id;b.textContent="Tap again to delete";setTimeout(()=>{if(armed===e.id&&b.isConnected){armed=null;b.textContent="Delete dream"}},3500)}}}
+$("#dlg").addEventListener("click",e=>{if(e.target===e.currentTarget)e.currentTarget.close()});
+$("#dlg").addEventListener("close",()=>refresh());
+
+/* navigation */
+function refresh(){({capture:renderCapture,journal:renderJournal,patterns:renderPatterns,shared:renderShared})[view]()}
+function go(v,scroll){view=v;["capture","journal","patterns","shared"].forEach(x=>{$("#v-"+x).hidden=x!==v});
+ $$("#tnav button,#tabbar button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+ try{history.replaceState(null,"","#"+v)}catch(e){}refresh();if(scroll)window.scrollTo(0,0)}
+function detUpdate(box,e,focus){box.innerHTML=detHTML(e);persist();const m=$("#matches");if(m&&cur===e.id)m.innerHTML=matchesHTML(e);if(focus){const i=box.querySelector(".symin");if(i)i.focus()}}
+
+/* events */
+document.addEventListener("click",ev=>{const T=ev.target,c=s=>T.closest(s);let x;
+ if(x=c("[data-v]"))return go(x.dataset.v,true);
+ if(x=c("[data-start]")){const t=$("#t");t.value=(t.value&&!/\s$/.test(t.value)?t.value+" ":t.value)+x.dataset.start+" ";t.focus();t.setSelectionRange(t.value.length,t.value.length);$("#go").disabled=false;draftSoon();return}
+ if(c("#mic"))return mic();
+ if(c("#go"))return saveDream();
+ if(x=c("[data-act]")){const a=x.dataset.act;
+  if(a==="again"){cur=null;renderCapture();$("#t").focus();return}
+  if(a==="clearf"){jsym=null;jmood=null;jq="";return renderJournal()}
+  if(a==="clearex"){S.entries=S.entries.filter(e=>!e.ex);persist();toast("Examples cleared");return renderJournal()}
+  if(a==="copy"){const txt=journalText();if(!txt.trim()){toast("Nothing to copy yet.");return}
+   try{navigator.clipboard.writeText(txt).then(()=>toast("Journal copied"),()=>toast("Copy was blocked here. Use Save as file instead."))}catch(e){toast("Copy was blocked here. Use Save as file instead.")}return}
+  if(a==="file"){DL.save({filename:"somnia-journal.txt",data:journalText()||"No dreams yet."}).then(()=>toast("Journal saved")).catch(e=>{if(e&&e.code!=="declined")toast("Saving a file is not available here.")});return}
+  if(a==="wipe"){if(armed==="wipe"){S.entries=[];S.draft="";S.metoo=[];cur=null;armed=null;persist();toast("Everything deleted");return renderJournal()}armed="wipe";x.textContent="Tap again to delete everything";setTimeout(()=>{if(armed==="wipe"&&x.isConnected){armed=null;x.textContent="Delete everything"}},3500);return}}
+ if(x=c("[data-gosym]")){sSym=x.dataset.gosym;return go("shared",true)}
+ if(x=c("[data-ssym]")){sSym=x.dataset.ssym||null;return renderShared()}
+ if(x=c("[data-fmood]")){jmood=jmood===x.dataset.fmood?null:x.dataset.fmood;return renderJournal()}
+ if(x=c("[data-jsym]")){ev.stopPropagation();jsym=x.dataset.jsym||null;if(view!=="journal")return go("journal",true);return renderJournal()}
+ if(x=c("[data-me]")){const id=x.dataset.me,i=S.metoo.indexOf(id);if(i>=0)S.metoo.splice(i,1);else{S.metoo.push(id);toast("Noted. You are not the only one.")}persist();return renderShared()}
+ if(x=c("[data-show]")){shown.add(x.dataset.show);return renderShared()}
+ if(x=c("[data-private]")){const e=S.entries.find(z=>z.id===x.dataset.private);if(e){e.shared=false;persist();toast("Dream is private again")}return renderShared()}
+ if(c("[data-report]"))return toast("Thanks. In the real app this dream would go to review.");
+ const box=c(".det");
+ if(box){const e=S.entries.find(z=>z.id===box.dataset.eid);if(!e)return;
+  if(x=c("[data-mood]")){e.mood=e.mood===x.dataset.mood?null:x.dataset.mood;return detUpdate(box,e)}
+  if(x=c("[data-type]")){e.type=x.dataset.type;return detUpdate(box,e)}
+  if(x=c("[data-rm]")){e.syms=e.syms.filter(s=>s!==x.dataset.rm);return detUpdate(box,e)}
+  if(x=c("[data-vis]")){e.shared=x.dataset.vis==="1";toast(e.shared?"Shared anonymously":"Dream is private");return detUpdate(box,e)}}
+ if(x=c("[data-e]"))openEntry(x.dataset.e)});
+document.addEventListener("keydown",ev=>{const T=ev.target;
+ if(ev.key==="Enter"&&T.matches("[data-e]"))return openEntry(T.dataset.e);
+ if(T.id==="t"&&ev.key==="Enter"&&(ev.metaKey||ev.ctrlKey)){ev.preventDefault();return saveDream()}
+ if(T.matches&&T.matches(".symin")&&(ev.key==="Enter"||ev.key===",")){ev.preventDefault();const box=T.closest(".det"),e=S.entries.find(z=>z.id===box.dataset.eid),s=T.value.trim().toLowerCase().replace(/^#/,"").slice(0,24);
+  if(e&&s&&!e.syms.includes(s)&&e.syms.length<8){e.syms.push(s);detUpdate(box,e,true)}else T.value=""}});
+document.addEventListener("input",ev=>{const T=ev.target;
+ if(T.id==="t"){$("#go").disabled=T.value.trim().length<3;draftSoon()}
+ if(T.id==="jq"){jq=T.value;drawList()}});
+
+/* start */
+$("#tnav").innerHTML=NAV.map(([k,l])=>`<button type="button" data-v="${k}">${l}</button>`).join("");
+$("#tabbar").innerHTML=NAV.map(([k,l,i])=>`<button type="button" data-v="${k}">${I(i)}<span>${l}</span></button>`).join("");
+const mi=moonInfo();$("#mchip").innerHTML=`${moonSVG(mi.p)}<span>${mi.name} · ${mi.lit}%</span>`;$("#mchip").title=`Tonight: ${mi.name}, ${mi.lit}% lit`;
+if(window.claude&&claude.use)claude.use("downloads").then(d=>{DL=d;if(view==="journal")drawData()}).catch(()=>{});
+const h0=location.hash.slice(1);go(["journal","patterns","shared"].includes(h0)?h0:"capture");
+</script>
+
+</body></html>
